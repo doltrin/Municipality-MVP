@@ -11,6 +11,7 @@ import { newsData } from '../data/newsData';
 import { AnimatePresence, motion } from 'framer-motion';
 import { getPopularServices } from '../data/servicesData';
 import { useTheme } from '../components/ThemeProvider';
+import { TeamMemberIcons, TeamMemberModal } from '../components';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -85,7 +86,10 @@ const Home: React.FC = () => {
               <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium -mt-0.5">Municipality Super App</p>
             </div>
           </div>
-          <nav className="flex items-center gap-1.5" aria-label="Header actions">
+          <nav className="flex items-center gap-2" aria-label="Header actions">
+            {/* Team Member Icons */}
+            <TeamMemberIcons />
+            
             {/* Theme Toggle - Improved touch target */}
             <button 
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
@@ -422,6 +426,9 @@ const Home: React.FC = () => {
         </section>
 
       </div>
+      
+      {/* Team Member Modal */}
+      <TeamMemberModal />
     </div>
   );
 };
