@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Building, FileText, Map, ChevronRight, CheckCircle2, Clock, AlertCircle, X, Upload, Calendar, Euro, MapPin, Search, Filter, Eye, Download } from 'lucide-react';
+import { ArrowLeft, Building, FileText, Map, ChevronRight, CheckCircle2, Clock, AlertCircle, X, Upload, Euro, MapPin, Search, Eye, Download } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -170,7 +170,7 @@ const UrbanPlanning: React.FC = () => {
           ].map(tab => (
             <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key as any)}
+              onClick={() => setActiveTab(tab.key as 'permits' | 'apply' | 'map')}
               className={`flex-1 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1.5 transition-colors ${
                 activeTab === tab.key 
                   ? 'bg-white dark:bg-zinc-700 text-slate-900 dark:text-white shadow-sm' 

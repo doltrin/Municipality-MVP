@@ -111,7 +111,7 @@ const HomeChakra: React.FC = () => {
             <button key={idx} onClick={() => navigate('/wallet')} className="min-w-[130px] p-4 rounded-xl text-left" style={{ backgroundColor: Chakra.gray700 }}>
               <div className="flex justify-between items-start mb-2">
                 <div className="p-2 rounded-lg" style={{ backgroundColor: `${stat.color}20`, color: stat.color }}>
-                  {typeof stat.icon === 'function' ? <stat.icon /> : <stat.icon size={18} />}
+                  {<stat.icon />}
                 </div>
                 {stat.badge && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: stat.color, color: 'white' }}>{stat.badge}</span>}
               </div>

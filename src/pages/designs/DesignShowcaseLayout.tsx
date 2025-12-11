@@ -18,7 +18,7 @@ const DesignShowcaseLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const currentIndex = detailLinks.findIndex((link) => location.pathname === link.path);
-  const currentLabel = currentIndex >= 0 ? detailLinks[currentIndex].label : '';
+  // Label available for future use: detailLinks[currentIndex]?.label
   const isGallery = location.pathname === '/designs';
 
   const handlePrev = () => {

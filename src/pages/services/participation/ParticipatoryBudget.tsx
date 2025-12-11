@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, PiggyBank, ThumbsUp, MapPin, Euro, Users, Clock, CheckCircle2, ChevronRight, Filter, TrendingUp, Award } from 'lucide-react';
+import { ArrowLeft, PiggyBank, ThumbsUp, MapPin, Users, CheckCircle2, Award } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 

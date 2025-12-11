@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, MapPin, Clock, CreditCard, Car, Navigation, Search, Filter, Star, Zap, ChevronRight, Timer, Receipt, X, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Clock, CreditCard, Car, Navigation, Search, Filter, ChevronRight, Timer, X, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -27,8 +27,7 @@ interface ActiveSession {
 
 const SmartParking: React.FC = () => {
   const navigate = useNavigate();
-  const [view, setView] = useState<'map' | 'list'>('map');
-  const [selectedZone, setSelectedZone] = useState<ParkingZone | null>(null);
+    const [selectedZone, setSelectedZone] = useState<ParkingZone | null>(null);
   const [showPayment, setShowPayment] = useState(false);
   const [showActiveSession, setShowActiveSession] = useState(false);
   const [selectedDuration, setSelectedDuration] = useState(60);

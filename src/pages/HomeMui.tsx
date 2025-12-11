@@ -109,7 +109,7 @@ const HomeMui: React.FC = () => {
             <button key={idx} onClick={() => navigate('/wallet')} className="min-w-[130px] p-4 rounded-lg text-left" style={{ backgroundColor: MUI.paper, boxShadow: '0 2px 1px -1px rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.12)' }}>
               <div className="flex justify-between items-start mb-2">
                 <div className="p-2 rounded-full" style={{ backgroundColor: MUI.primaryDark + '40', color: MUI.primary }}>
-                  {typeof stat.icon === 'function' ? <stat.icon /> : <stat.icon size={18} />}
+                  {<stat.icon />}
                 </div>
                 {stat.badge && <span className="text-[10px] font-medium px-2 py-0.5 rounded-full" style={{ backgroundColor: MUI.primaryDark, color: 'white' }}>{stat.badge}</span>}
               </div>

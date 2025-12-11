@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Store, Music, Utensils, Megaphone, FileText, ChevronRight, CheckCircle2, Clock, AlertCircle, X, Upload, Calendar, Euro, MapPin, Building, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Store, Music, Utensils, Megaphone, FileText, ChevronRight, CheckCircle2, Clock, AlertCircle, X, Upload, Calendar, Euro, Building, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 

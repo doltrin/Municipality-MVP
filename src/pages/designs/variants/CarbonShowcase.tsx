@@ -1,5 +1,5 @@
-import { announcementCard, bottomNavItems, emergencyInfo, greetingContext, popularServices, quickActions, statsCards, taskItems, userPersona, newsHighlights, } from '../designData';
-import { Droplets, ThermometerSun, Wind, Sun, ArrowRight, Bell, Search, Menu, ChevronRight } from 'lucide-react';
+import { announcementCard, bottomNavItems, emergencyInfo, greetingContext, popularServices, quickActions, statsCards, taskItems, userPersona, newsHighlights } from '../designData';
+import { Droplets, ThermometerSun, Wind, Sun, Bell, Search, ChevronRight, ArrowRight } from 'lucide-react';
 
 const CarbonShowcase = () => {
   return (

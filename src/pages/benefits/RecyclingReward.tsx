@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Recycle, MapPin, QrCode, Gift, TrendingUp, Leaf, ChevronRight, Award } from 'lucide-react';
+import { ArrowLeft, Recycle, MapPin, QrCode, TrendingUp, Leaf } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const RecyclingReward: React.FC = () => {

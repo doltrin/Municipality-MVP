@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Building2, MapPin, Clock, Calendar, QrCode, Ticket, Star, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Building2, Clock, QrCode, Ticket, Star, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const MuseumAccess: React.FC = () => {

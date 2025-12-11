@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, CreditCard, Gift, Ticket, Music, GraduationCap, Bus, Dumbbell, ChevronRight, QrCode, Star, MapPin, Clock, CheckCircle2, X, Camera, Upload } from 'lucide-react';
+import { ArrowLeft, CreditCard, Gift, Ticket, Music, GraduationCap, Bus, Dumbbell, ChevronRight, QrCode, Star, MapPin, Clock, CheckCircle2, X, Camera } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 

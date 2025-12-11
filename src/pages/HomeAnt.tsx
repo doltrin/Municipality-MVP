@@ -109,7 +109,7 @@ const HomeAnt: React.FC = () => {
             <button key={idx} onClick={() => navigate('/wallet')} className="min-w-[130px] p-4 rounded-lg text-left" style={{ backgroundColor: Ant.colorBgElevated, border: `1px solid ${Ant.colorBorder}` }}>
               <div className="flex justify-between items-start mb-2">
                 <div className="p-2 rounded-lg" style={{ backgroundColor: Ant.colorPrimaryBg, color: Ant.colorPrimary }}>
-                  {typeof stat.icon === 'function' ? <stat.icon /> : <stat.icon size={18} />}
+                  {<stat.icon />}
                 </div>
                 {stat.badge && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: Ant.colorPrimary, color: 'white' }}>{stat.badge}</span>}
               </div>

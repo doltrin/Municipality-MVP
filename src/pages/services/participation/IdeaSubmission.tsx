@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Lightbulb, MapPin, Camera, Send, CheckCircle2, ThumbsUp, MessageCircle, Clock, Tag, ChevronRight, Plus, X, Image } from 'lucide-react';
+import { ArrowLeft, Lightbulb, MapPin, Camera, Send, CheckCircle2, ThumbsUp, MessageCircle, Clock, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -164,7 +164,7 @@ const IdeaSubmission: React.FC = () => {
           <div className="bg-white dark:bg-surface-dark rounded-xl border border-zinc-200 dark:border-zinc-700 p-5 text-left mb-6">
             <div className="flex justify-between items-center mb-3">
               <span className="text-sm text-zinc-500 dark:text-zinc-400">Reference</span>
-              <span className="font-mono font-bold text-accent">IDEA-{new Date().getFullYear()}-{Math.random().toString().slice(2, 6)}</span>
+              <span className="font-mono font-bold text-accent">IDEA-2025-4821</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-zinc-500 dark:text-zinc-400">Status</span>

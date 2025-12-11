@@ -1,5 +1,5 @@
-import { announcementCard, bottomNavItems, emergencyInfo, greetingContext, popularServices, quickActions, statsCards, taskItems, userPersona, newsHighlights, } from '../designData';
-import { Droplets, ThermometerSun, Wind, Sun, ArrowRight, Bell, Search, Menu, ChevronRight } from 'lucide-react';
+import { announcementCard, bottomNavItems, emergencyInfo, greetingContext, popularServices, quickActions, statsCards, taskItems, userPersona, newsHighlights } from '../designData';
+import { Droplets, ThermometerSun, Wind, Sun, Bell, Search, ChevronRight } from 'lucide-react';
 
 const BootstrapShowcase = () => {
   return (
@@ -78,7 +78,7 @@ const BootstrapShowcase = () => {
               <button className="btn btn-link btn-sm text-[#0d6efd] no-underline p-0 text-xs">View All</button>
            </div>
            <div className="list-group list-group-flush">
-              {taskItems.map((task, idx) => (
+              {taskItems.map((task) => (
                  <div key={task.id} className={`list-group-item bg-[#2c3034] text-white p-3 flex items-center justify-between border-b border-[#373b3e] last:border-0 hover:bg-[#343a40]`}>
                     <div className="flex items-center gap-3">
                        <div className="bg-[#212529] p-2 rounded text-[#0d6efd] border border-[#373b3e]">
@@ -144,7 +144,7 @@ const BootstrapShowcase = () => {
               <span className="text-sm font-medium">Popular Services</span>
            </div>
            <div className="list-group list-group-flush">
-              {popularServices.map((service, idx) => (
+              {popularServices.map((service) => (
                  <button key={service.id} className="list-group-item list-group-item-action bg-[#2c3034] text-white p-3 flex justify-between items-center border-b border-[#373b3e] last:border-0 hover:bg-[#343a40]">
                     <div className="flex gap-2 items-center">
                        <service.icon size={16} className="text-[#adb5bd]" />

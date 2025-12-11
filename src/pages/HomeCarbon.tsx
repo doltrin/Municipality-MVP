@@ -108,7 +108,7 @@ const HomeCarbon: React.FC = () => {
             <button key={idx} onClick={() => navigate('/wallet')} className="min-w-[130px] p-4 text-left" style={{ backgroundColor: Carbon.layer01 }}>
               <div className="flex justify-between items-start mb-2">
                 <div className="p-2" style={{ backgroundColor: Carbon.layer02, color: Carbon.textSecondary }}>
-                  {typeof stat.icon === 'function' ? <stat.icon /> : <stat.icon size={18} />}
+                  {<stat.icon />}
                 </div>
                 {stat.badge && <span className="text-[10px] font-bold px-1.5 py-0.5" style={{ backgroundColor: Carbon.interactive, color: 'white' }}>{stat.badge}</span>}
               </div>

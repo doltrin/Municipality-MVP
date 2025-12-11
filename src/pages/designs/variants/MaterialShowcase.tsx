@@ -1,5 +1,5 @@
-import { announcementCard, bottomNavItems, emergencyInfo, greetingContext, popularServices, quickActions, statsCards, taskItems, userPersona, newsHighlights, } from '../designData';
-import { Droplets, ThermometerSun, Wind, Sun, ArrowRight, Bell, Search, Menu, Plus } from 'lucide-react';
+import { announcementCard, bottomNavItems, greetingContext, quickActions, statsCards, taskItems, userPersona } from '../designData';
+import { Droplets, ThermometerSun, Wind, Sun, Bell, Search } from 'lucide-react';
 
 const MaterialShowcase = () => {
   return (

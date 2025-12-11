@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Bus, MapPin, Clock, Navigation, Star, Bell, ChevronRight, RefreshCw, AlertCircle, Route, Users } from 'lucide-react';
+import { ArrowLeft, MapPin, Navigation, Star, Bell, ChevronRight, RefreshCw, Route } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -177,7 +177,7 @@ const BusTracker: React.FC = () => {
           ].map(tab => (
             <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key as any)}
+              onClick={() => setActiveTab(tab.key as 'nearby' | 'routes' | 'favorites')}
               className={`flex-1 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1.5 transition-colors ${
                 activeTab === tab.key 
                   ? 'bg-white dark:bg-zinc-700 text-slate-900 dark:text-white shadow-sm' 

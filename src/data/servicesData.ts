@@ -1,16 +1,17 @@
+import React from 'react';
 import { 
   FileText, Building2, Heart, Car, Trash2, CreditCard, Users, 
   GraduationCap, Home, Briefcase, Scale, Baby, HeartPulse, 
   TreePine, Droplets, Zap, Shield, MapPin, Calendar, 
   Landmark, PiggyBank, Bike, Bus, ParkingCircle, Dog,
-  Recycle, Leaf, Sun, Wind, Waves, Mountain, Building,
+  Recycle, Leaf, Sun, Waves, Mountain, Building,
   Store, Utensils, Music, Palette, BookOpen, Trophy,
-  Accessibility, Stethoscope, Pill, Siren, Phone, Mail,
-  FileCheck, FilePlus, FileSearch, ClipboardList, Receipt,
-  Banknote, Wallet, HandCoins, BadgeCheck, UserCheck,
-  AlertTriangle, Construction, Hammer, Wrench, HardHat,
-  Church, Cross, Flag, Vote, Megaphone, Newspaper,
-  Wifi, Camera, Lightbulb, Thermometer, CloudRain, Flame
+  Accessibility, Stethoscope, Pill, Siren,
+  FileCheck, ClipboardList, Receipt,
+  HandCoins, BadgeCheck, UserCheck,
+  AlertTriangle, Construction, Hammer, HardHat,
+  Cross, Flag, Vote, Megaphone,
+  Wifi, Camera, Lightbulb, CloudRain, Flame
 } from 'lucide-react';
 
 export interface ServiceItem {
@@ -19,7 +20,7 @@ export interface ServiceItem {
   nameGr: string;
   description: string;
   path: string;
-  icon: any;
+  icon: React.ElementType;
   popular?: boolean;
   new?: boolean;
   requiresAuth?: boolean;
@@ -31,7 +32,7 @@ export interface ServiceCategory {
   id: string;
   name: string;
   nameGr: string;
-  icon: any;
+  icon: React.ElementType;
   color: string;
   bgColor: string;
   darkBgColor: string;
