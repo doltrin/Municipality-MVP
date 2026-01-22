@@ -207,27 +207,51 @@ export const AppRoutes: React.FC = () => {
         {/* Design System Variants */}
         <Route path="/material3" element={<Material3Layout />}>
           <Route index element={<HomeMaterial3 />} />
+          <Route path="services" element={<Services />} />
+          <Route path="news" element={<News />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/carbon" element={<CarbonLayout />}>
           <Route index element={<HomeCarbon />} />
+          <Route path="services" element={<Services />} />
+          <Route path="news" element={<News />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/ant" element={<AntLayout />}>
           <Route index element={<HomeAnt />} />
+          <Route path="services" element={<Services />} />
+          <Route path="news" element={<News />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/chakra" element={<ChakraLayout />}>
           <Route index element={<HomeChakra />} />
+          <Route path="services" element={<Services />} />
+          <Route path="news" element={<News />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/mui" element={<MuiLayout />}>
           <Route index element={<HomeMui />} />
+          <Route path="services" element={<Services />} />
+          <Route path="news" element={<News />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/daisy" element={<DaisyLayout />}>
           <Route index element={<HomeDaisy />} />
+          <Route path="services" element={<Services />} />
+          <Route path="news" element={<News />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/patternfly" element={<PatternFlyLayout />}>
           <Route index element={<HomePatternFly />} />
+          <Route path="services" element={<Services />} />
+          <Route path="news" element={<News />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/bootstrap" element={<BootstrapLayout />}>
           <Route index element={<HomeBootstrap />} />
+          <Route path="services" element={<Services />} />
+          <Route path="news" element={<News />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         
         {/* Design Showcase */}

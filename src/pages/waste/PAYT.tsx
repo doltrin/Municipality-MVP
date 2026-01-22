@@ -1,15 +1,17 @@
 import React from 'react';
 import { ArrowLeft, QrCode, Scale, Trash2, History, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '../../stores';
 
 const PAYT: React.FC = () => {
   const navigate = useNavigate();
+  const user = useAppStore((s) => s.user);
 
   return (
     <div className="flex flex-col min-h-full bg-slate-50">
       <div className="bg-green-600 px-6 pt-12 pb-8 rounded-b-[2rem] shadow-lg">
         <div className="flex items-center gap-3 mb-6">
-          <button onClick={() => navigate(-1)} className="text-white/80 hover:text-white">
+          <button onClick={() => navig/ate(-1)} className="text-white/80 hover:text-white">
             <ArrowLeft size={24} />
           </button>
           <h1 className="text-2xl font-bold text-white">Pay-As-You-Throw</h1>
@@ -33,7 +35,7 @@ const PAYT: React.FC = () => {
           <div className="w-48 h-48 bg-slate-100 rounded-xl mb-4 flex items-center justify-center">
             <QrCode size={120} className="text-slate-800" />
           </div>
-          <h3 className="font-bold text-lg text-slate-800">Alexandros Pappas</h3>
+          <h3 className="font-bold text-lg text-slate-800">{user?.name || 'Guest'}</h3>
           <p className="text-sm text-slate-500 mb-4">Bin ID: #8492-TR-2025</p>
           <p className="text-xs text-slate-400 max-w-[200px]">Scan this QR code at the smart bin to unlock it and weigh your waste.</p>
         </div>

@@ -11,11 +11,13 @@ import { newsData } from '../data/newsData';
 import { AnimatePresence, motion } from 'framer-motion';
 import { getPopularServices } from '../data/servicesData';
 import { useTheme } from '../components/ThemeProvider';
-import { TeamMemberIcons, TeamMemberModal } from '../components';
+import { TeamMemberModal } from '../components';
+import { useAppStore } from '../stores';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
+  const user = useAppStore((s) => s.user);
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -87,9 +89,6 @@ const Home: React.FC = () => {
             </div>
           </div>
           <nav className="flex items-center gap-2" aria-label="Header actions">
-            {/* Team Member Icons */}
-            <TeamMemberIcons />
-            
             {/* Theme Toggle - Improved touch target */}
             <button 
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
@@ -160,7 +159,7 @@ const Home: React.FC = () => {
               <div>
                 <p className="text-xs font-medium text-white/70 uppercase tracking-wide">{formattedDate}</p>
                 <h1 className="text-2xl font-extrabold mt-1 leading-tight">
-                  {getGreeting()},<br/>Alexandros
+                  {getGreeting()},<br/>{user?.name || 'Guest'}
                 </h1>
               </div>
               <div className="text-right">

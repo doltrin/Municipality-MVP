@@ -371,85 +371,219 @@ const SocialServices: React.FC = () => {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               onClick={e => e.stopPropagation()}
-              className="w-full bg-white dark:bg-surface-dark rounded-t-3xl max-h-[85%] overflow-y-auto"
+              className="w-full bg-white dark:bg-surface-dark rounded-t-3xl max-h-[90%] overflow-y-auto"
             >
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div 
-                      className="w-14 h-14 rounded-xl flex items-center justify-center"
-                      style={{ backgroundColor: `${selectedService.color}20` }}
-                    >
-                      <selectedService.icon size={28} style={{ color: selectedService.color }} />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-slate-900 dark:text-white">{selectedService.nameGr}</h3>
-                      <p className="text-xs text-zinc-500">{selectedService.name}</p>
-                    </div>
+              {/* Hero Header with Gradient */}
+              <div 
+                className="relative px-5 pt-6 pb-8 rounded-t-3xl"
+                style={{ 
+                  background: `linear-gradient(135deg, ${selectedService.color}15 0%, ${selectedService.color}05 100%)` 
+                }}
+              >
+                <button 
+                  onClick={() => setSelectedService(null)} 
+                  className="absolute top-4 right-4 w-8 h-8 bg-white/80 dark:bg-zinc-800/80 backdrop-blur rounded-full flex items-center justify-center text-zinc-500"
+                >
+                  <X size={18} />
+                </button>
+                
+                <div className="flex items-start gap-4">
+                  <div 
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"
+                    style={{ backgroundColor: selectedService.color }}
+                  >
+                    <selectedService.icon size={32} className="text-white" />
                   </div>
-                  <button onClick={() => setSelectedService(null)} className="p-2 text-zinc-400">
-                    <X size={20} />
-                  </button>
+                  <div className="flex-1 pt-1">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">{selectedService.nameGr}</h3>
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">{selectedService.name}</p>
+                    {selectedService.status === 'approved' && (
+                      <span className="inline-flex items-center gap-1 mt-2 px-2.5 py-1 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 text-xs font-semibold rounded-full">
+                        <CheckCircle2 size={12} />
+                        Active Beneficiary
+                      </span>
+                    )}
+                  </div>
                 </div>
 
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-4 leading-relaxed">
                   {selectedService.description}
                 </p>
+              </div>
 
-                {/* Processing Time */}
-                <div className="bg-zinc-100 dark:bg-zinc-800 rounded-xl p-3 mb-4">
-                  <div className="flex items-center gap-2">
-                    <Clock size={18} className="text-zinc-500" />
-                    <span className="text-sm text-zinc-600 dark:text-zinc-300">
-                      Processing time: <strong>{selectedService.processingTime}</strong>
-                    </span>
+              <div className="px-5 pb-6">
+                {/* Impact Stats */}
+                <div className="grid grid-cols-3 gap-3 -mt-4 mb-5">
+                  <div className="bg-white dark:bg-zinc-800 rounded-xl p-3 text-center shadow-sm border border-zinc-100 dark:border-zinc-700">
+                    <div className="text-xl font-bold text-slate-900 dark:text-white">2,847</div>
+                    <div className="text-[10px] text-zinc-500 font-medium">Families Helped</div>
+                  </div>
+                  <div className="bg-white dark:bg-zinc-800 rounded-xl p-3 text-center shadow-sm border border-zinc-100 dark:border-zinc-700">
+                    <div className="text-xl font-bold" style={{ color: selectedService.color }}>€0</div>
+                    <div className="text-[10px] text-zinc-500 font-medium">Service Fee</div>
+                  </div>
+                  <div className="bg-white dark:bg-zinc-800 rounded-xl p-3 text-center shadow-sm border border-zinc-100 dark:border-zinc-700">
+                    <div className="text-xl font-bold text-slate-900 dark:text-white">{selectedService.processingTime.split('-')[0]}</div>
+                    <div className="text-[10px] text-zinc-500 font-medium">Days to Approve</div>
                   </div>
                 </div>
 
-                {/* Requirements */}
-                <div className="mb-4">
-                  <h4 className="font-semibold text-slate-900 dark:text-white mb-2">Required Documents</h4>
+                {/* What You Get Section */}
+                <div className="mb-5">
+                  <h4 className="font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                    <ShoppingBag size={16} style={{ color: selectedService.color }} />
+                    What You Receive
+                  </h4>
+                  <div className="bg-gradient-to-r from-zinc-50 to-zinc-100/50 dark:from-zinc-800 dark:to-zinc-800/50 rounded-xl p-4 border border-zinc-200/50 dark:border-zinc-700">
+                    <div className="grid grid-cols-2 gap-3">
+                      {[
+                        { item: 'Fresh Produce', qty: 'Weekly' },
+                        { item: 'Dairy Products', qty: 'Weekly' },
+                        { item: 'Pantry Staples', qty: 'Monthly' },
+                        { item: 'Hygiene Items', qty: 'Monthly' },
+                      ].map((benefit, idx) => (
+                        <div key={idx} className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: selectedService.color }} />
+                          <div>
+                            <span className="text-sm font-medium text-slate-800 dark:text-white">{benefit.item}</span>
+                            <span className="text-xs text-zinc-400 ml-1">({benefit.qty})</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Eligibility Quick Check */}
+                <div className="mb-5">
+                  <h4 className="font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                    <CheckCircle2 size={16} className="text-green-500" />
+                    Eligibility Criteria
+                  </h4>
                   <div className="space-y-2">
-                    {selectedService.requirements.map((req, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                        <CheckCircle2 size={16} className="text-green-500" />
-                        {req}
+                    {[
+                      { label: 'Annual income below €12,000 (single) / €18,000 (family)', met: true },
+                      { label: 'Resident of the municipality', met: true },
+                      { label: 'Valid AMKA number', met: true },
+                      { label: 'Not receiving similar benefits elsewhere', met: false },
+                    ].map((criteria, idx) => (
+                      <div key={idx} className="flex items-center gap-3 p-2.5 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg">
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                          criteria.met 
+                            ? 'bg-green-100 dark:bg-green-900/30 text-green-600' 
+                            : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-400'
+                        }`}>
+                          {criteria.met ? <CheckCircle2 size={12} /> : <div className="w-2 h-2 rounded-full bg-current" />}
+                        </div>
+                        <span className={`text-xs ${criteria.met ? 'text-slate-700 dark:text-zinc-300' : 'text-zinc-400'}`}>
+                          {criteria.label}
+                        </span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Eligibility Info */}
-                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-xl p-3 mb-4">
-                  <h4 className="font-semibold text-blue-900 dark:text-blue-200 text-sm mb-1">Eligibility</h4>
-                  <p className="text-xs text-blue-700 dark:text-blue-300">
-                    Income-based eligibility. Annual household income must be below €12,000 for single persons or €18,000 for families.
-                  </p>
+                {/* Required Documents */}
+                <div className="mb-5">
+                  <h4 className="font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                    <FileText size={16} className="text-blue-500" />
+                    Required Documents
+                  </h4>
+                  <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-100 dark:border-blue-800/30">
+                    <div className="space-y-2.5">
+                      {selectedService.requirements.map((req, idx) => (
+                        <div key={idx} className="flex items-start gap-3">
+                          <div className="w-5 h-5 rounded-md bg-blue-100 dark:bg-blue-800/50 text-blue-600 flex items-center justify-center text-xs font-bold mt-0.5">
+                            {idx + 1}
+                          </div>
+                          <span className="text-sm text-blue-900 dark:text-blue-200">{req}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-[10px] text-blue-600/70 dark:text-blue-400/70 mt-3 pt-3 border-t border-blue-200/50 dark:border-blue-700/30">
+                      💡 Tip: You can upload photos of documents directly from your phone
+                    </p>
+                  </div>
+                </div>
+
+                {/* Pickup Location */}
+                <div className="mb-5">
+                  <h4 className="font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                    <Home size={16} className="text-amber-500" />
+                    Pickup Location
+                  </h4>
+                  <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4 border border-amber-100 dark:border-amber-800/30">
+                    <div className="flex items-start gap-3">
+                      <div className="w-12 h-12 bg-amber-100 dark:bg-amber-800/50 rounded-lg flex items-center justify-center">
+                        <Home size={20} className="text-amber-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold text-amber-900 dark:text-amber-200 text-sm">Municipal Social Center</p>
+                        <p className="text-xs text-amber-700 dark:text-amber-300 mt-0.5">Αριστομένους 28, Καλαμάτα</p>
+                        <div className="flex items-center gap-3 mt-2">
+                          <span className="text-[10px] text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-800/50 px-2 py-0.5 rounded-full">
+                            Mon-Fri: 9:00-14:00
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Processing Timeline */}
+                <div className="mb-6">
+                  <h4 className="font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                    <Clock size={16} className="text-purple-500" />
+                    Application Timeline
+                  </h4>
+                  <div className="relative">
+                    <div className="absolute left-[11px] top-3 bottom-3 w-0.5 bg-zinc-200 dark:bg-zinc-700" />
+                    {[
+                      { step: 'Submit Application', time: 'Day 1', done: true },
+                      { step: 'Document Verification', time: 'Days 2-5', done: false },
+                      { step: 'Eligibility Assessment', time: 'Days 6-10', done: false },
+                      { step: 'Approval & Card Issued', time: 'Days 11-14', done: false },
+                    ].map((milestone, idx) => (
+                      <div key={idx} className="flex items-start gap-3 relative mb-3 last:mb-0">
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center z-10 ${
+                          milestone.done 
+                            ? 'bg-green-500 text-white' 
+                            : 'bg-white dark:bg-zinc-800 border-2 border-zinc-300 dark:border-zinc-600'
+                        }`}>
+                          {milestone.done ? <CheckCircle2 size={14} /> : <span className="text-xs font-bold text-zinc-400">{idx + 1}</span>}
+                        </div>
+                        <div className="flex-1 pt-0.5">
+                          <p className="text-sm font-medium text-slate-800 dark:text-white">{milestone.step}</p>
+                          <p className="text-xs text-zinc-400">{milestone.time}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Actions */}
-                <div className="space-y-2">
+                <div className="space-y-3 pt-2">
                   {selectedService.status === 'approved' ? (
-                    <button className="w-full py-3 bg-green-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2">
+                    <button className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-green-500/25">
                       <CheckCircle2 size={20} />
-                      Already Enrolled
+                      View Your Beneficiary Card
                     </button>
                   ) : selectedService.status === 'pending' ? (
-                    <button className="w-full py-3 bg-amber-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2">
+                    <button className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25">
                       <Clock size={20} />
-                      Application Pending
+                      Application In Progress
                     </button>
                   ) : (
                     <button 
                       onClick={() => setShowApplicationForm(true)}
-                      className="w-full py-3 bg-accent text-white font-semibold rounded-xl"
+                      className="w-full py-4 bg-gradient-to-r from-accent to-blue-600 text-white font-bold rounded-2xl shadow-lg shadow-accent/25"
                     >
-                      Apply Now
+                      Start Application
                     </button>
                   )}
-                  <button className="w-full py-3 bg-zinc-100 dark:bg-zinc-800 text-slate-900 dark:text-white font-semibold rounded-xl flex items-center justify-center gap-2">
+                  <button className="w-full py-3 bg-zinc-100 dark:bg-zinc-800 text-slate-700 dark:text-white font-semibold rounded-xl flex items-center justify-center gap-2">
                     <Phone size={18} />
-                    Contact Social Services
+                    Call: 27210-12345
                   </button>
                 </div>
               </div>

@@ -1,16 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { User, Theme, Notification, ModalState } from '../types';
+import type { User, Notification, ModalState } from '../types';
+import { env } from '../env';
 
 // ============================================
 // App Store - Global Application State
 // ============================================
 
 interface AppState {
-  // Theme
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-
   // User
   user: User | null;
   setUser: (user: User | null) => void;
@@ -42,19 +39,17 @@ interface AppState {
 export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
-      // Theme
-      theme: 'system',
-      setTheme: (theme) => set({ theme }),
-
       // User - Default mock user
-      user: {
-        id: '1',
-        name: 'Alexandros',
-        email: 'alex@example.com',
-        verified: true,
-        points: 1250,
-        walletBalance: 45.50,
-      },
+      user: env.demoMode
+        ? {
+            id: '1',
+            name: 'Alexandros',
+            email: 'alex@example.com',
+            verified: true,
+            points: 1250,
+            walletBalance: 45.5,
+          }
+        : null,
       setUser: (user) => set({ user }),
       updateUserPoints: (points) => {
         const user = get().user;
@@ -70,33 +65,35 @@ export const useAppStore = create<AppState>()(
       },
 
       // Notifications
-      notifications: [
-        {
-          id: '1',
-          title: 'Request Update',
-          message: 'Your street light repair request is now in progress.',
-          type: 'info',
-          read: false,
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: '2',
-          title: 'Points Earned',
-          message: 'You earned 50 points for recycling!',
-          type: 'success',
-          read: false,
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: '3',
-          title: 'Water Supply Notice',
-          message: 'Scheduled maintenance on Dec 8th in Kypseli area.',
-          type: 'warning',
-          read: true,
-          createdAt: new Date().toISOString(),
-        },
-      ],
-      unreadCount: 2,
+      notifications: env.demoMode
+        ? [
+            {
+              id: '1',
+              title: 'Request Update',
+              message: 'Your street light repair request is now in progress.',
+              type: 'info',
+              read: false,
+              createdAt: new Date().toISOString(),
+            },
+            {
+              id: '2',
+              title: 'Points Earned',
+              message: 'You earned 50 points for recycling!',
+              type: 'success',
+              read: false,
+              createdAt: new Date().toISOString(),
+            },
+            {
+              id: '3',
+              title: 'Water Supply Notice',
+              message: 'Scheduled maintenance on Dec 8th in Kypseli area.',
+              type: 'warning',
+              read: true,
+              createdAt: new Date().toISOString(),
+            },
+          ]
+        : [],
+      unreadCount: env.demoMode ? 2 : 0,
       addNotification: (notification) => {
         const newNotification: Notification = {
           ...notification,
@@ -140,7 +137,6 @@ export const useAppStore = create<AppState>()(
     {
       name: 'athens-app-storage',
       partialize: (state) => ({
-        theme: state.theme,
         user: state.user,
       }),
     }

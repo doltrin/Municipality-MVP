@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import DeviceFrame from './components/DeviceFrame.tsx'
+import { seedMockData } from './api/seed'
 
 // Check URL params for device preview mode
 const urlParams = new URLSearchParams(window.location.search);
@@ -19,6 +20,8 @@ if (!hasDeviceParam) {
 const showDeviceFrame = urlParams.get('device') !== 'false';
 const deviceType = (urlParams.get('model') as 'iphone-17-pro-max' | 'iphone-16-pro-max' | 'iphone-14-pro' | 'iphone-14' | 'pixel-7') || 'iphone-17-pro-max';
 const darkFrame = urlParams.get('dark') !== 'false';
+
+seedMockData();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

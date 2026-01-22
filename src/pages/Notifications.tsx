@@ -1,64 +1,52 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Calendar, AlertTriangle, Info, Bell, CheckCheck } from 'lucide-react';
+import React, { useMemo } from 'react';
+import { ArrowLeft, AlertTriangle, Info, Bell, CheckCheck, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
-interface Notification {
-  id: number;
-  title: string;
-  message: string;
-  time: string;
-  icon: React.ElementType;
-  color: string;
-  darkColor: string;
-  read: boolean;
-}
-
-const initialNotifications: Notification[] = [
-  {
-    id: 1,
-    title: 'Request Update',
-    message: 'Your pothole repair request #REQ-892 is now "In Progress".',
-    time: '2 hours ago',
-    icon: AlertTriangle,
-    color: 'text-blue-600 bg-blue-100',
-    darkColor: 'dark:text-blue-400 dark:bg-blue-900/30',
-    read: false
-  },
-  {
-    id: 2,
-    title: 'Event Reminder',
-    message: 'Grand Opening of Green Oasis Park is tomorrow at 10:00 AM.',
-    time: '5 hours ago',
-    icon: Calendar,
-    color: 'text-purple-600 bg-purple-100',
-    darkColor: 'dark:text-purple-400 dark:bg-purple-900/30',
-    read: true
-  },
-  {
-    id: 3,
-    title: 'General Notice',
-    message: 'City Hall will be closed this Monday due to a national holiday.',
-    time: '1 day ago',
-    icon: Info,
-    color: 'text-zinc-600 bg-zinc-100',
-    darkColor: 'dark:text-zinc-400 dark:bg-zinc-800',
-    read: true
-  }
-];
+import { useAppStore } from '../stores';
 
 const Notifications: React.FC = () => {
   const navigate = useNavigate();
-  const [notifications, setNotifications] = useState<Notification[]>(initialNotifications);
+  const notifications = useAppStore((s) => s.notifications);
+  const unreadCount = useAppStore((s) => s.unreadCount);
+  const markAsRead = useAppStore((s) => s.markAsRead);
+  const markAllAsRead = useAppStore((s) => s.markAllAsRead);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const viewModels = useMemo(() => {
+    const formatTime = (iso: string) => {
+      const date = new Date(iso);
+      if (Number.isNaN(date.getTime())) return '';
+      return date.toLocaleString(undefined, {
+        day: '2-digit',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    };
 
-  const markAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-  };
+    const metaForType = (type: string) => {
+      switch (type) {
+        case 'success':
+          return { icon: CheckCircle, color: 'text-emerald-600 bg-emerald-100', darkColor: 'dark:text-emerald-400 dark:bg-emerald-900/30' };
+        case 'warning':
+          return { icon: AlertTriangle, color: 'text-amber-600 bg-amber-100', darkColor: 'dark:text-amber-400 dark:bg-amber-900/30' };
+        case 'error':
+          return { icon: AlertTriangle, color: 'text-red-600 bg-red-100', darkColor: 'dark:text-red-400 dark:bg-red-900/30' };
+        case 'info':
+        default:
+          return { icon: Info, color: 'text-blue-600 bg-blue-100', darkColor: 'dark:text-blue-400 dark:bg-blue-900/30' };
+      }
+    };
 
-  const markAsRead = (id: number) => {
-    setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
-  };
+    return notifications.map((n) => {
+      const meta = metaForType(n.type);
+      return {
+        ...n,
+        time: formatTime(n.createdAt),
+        icon: meta.icon,
+        color: meta.color,
+        darkColor: meta.darkColor,
+      };
+    });
+  }, [notifications]);
 
   return (
     <div className="flex flex-col min-h-full bg-zinc-100 dark:bg-background-dark pb-20">
@@ -94,14 +82,14 @@ const Notifications: React.FC = () => {
       </header>
 
       <main className="p-4 space-y-3">
-        {notifications.length === 0 ? (
+        {viewModels.length === 0 ? (
           <div className="text-center py-16">
             <Bell size={48} className="mx-auto text-zinc-300 dark:text-zinc-600 mb-4" />
             <p className="text-zinc-500 dark:text-zinc-400 font-medium">No notifications</p>
             <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1">You're all caught up!</p>
           </div>
         ) : (
-          notifications.map((notif) => (
+          viewModels.map((notif) => (
             <button 
               key={notif.id}
               onClick={() => markAsRead(notif.id)}

@@ -1,9 +1,11 @@
 import React, { useCallback } from 'react';
 import { User, Settings, CreditCard, Bell, HelpCircle, LogOut, ChevronRight, ClipboardList, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '../stores';
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
+  const user = useAppStore((s) => s.user);
   
   const handleNavigation = useCallback((path: string) => () => navigate(path), [navigate]);
 
@@ -16,14 +18,14 @@ const Profile: React.FC = () => {
           <div className="w-24 h-24 rounded-full bg-white dark:bg-zinc-800 p-1 shadow-xl mb-4 ring-4 ring-white/20">
             <img 
               src="https://i.pravatar.cc/150?img=11" 
-              alt="Profile photo of Alexandros Pappas" 
+              alt="Profile photo" 
               className="w-full h-full rounded-full object-cover"
             />
           </div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight">Alexandros Pappas</h1>
+          <h1 className="text-2xl font-extrabold text-white tracking-tight">{user?.name || 'Guest'}</h1>
           <div className="flex items-center gap-2 mt-2">
             <Shield size={14} className="text-emerald-300" />
-            <p className="text-indigo-200 text-sm font-medium">Verified Citizen · ID #84920</p>
+            <p className="text-indigo-200 text-sm font-medium">{user?.verified ? 'Verified Citizen' : 'Citizen'} · ID #84920</p>
           </div>
         </div>
       </header>

@@ -152,12 +152,18 @@ export interface ModalState {
 export type Theme = 'light' | 'dark' | 'system';
 
 // API Response
-export interface ApiResponse<T> {
-  data: T;
-  success: boolean;
-  message?: string;
-  error?: string;
-}
+export type ApiResponse<T> =
+  | {
+      success: true;
+      data: T;
+      message?: string;
+    }
+  | {
+      success: false;
+      data: null;
+      error: string;
+      message?: string;
+    };
 
 // Pagination
 export interface PaginatedResponse<T> {

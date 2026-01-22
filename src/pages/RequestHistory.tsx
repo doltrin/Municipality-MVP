@@ -1,22 +1,79 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, Clock, CheckCircle, Filter, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../api';
+import type { Request } from '../types';
 
 const RequestHistory: React.FC = () => {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState('All');
 
-  const requests = [
-    { id: 'REQ-2025-892', type: 'Pothole Repair', status: 'In Progress', date: 'Oct 24, 2025', location: 'Ag. Meletiou 132' },
-    { id: 'REQ-2025-741', type: 'Bulky Waste Pickup', status: 'Scheduled', date: 'Oct 22, 2025', location: 'Home Address' },
-    { id: 'REQ-2025-103', type: 'Street Light Repair', status: 'Completed', date: 'Oct 10, 2025', location: 'Park Entrance' },
-    { id: 'REQ-2025-055', type: 'Bin Replacement', status: 'Completed', date: 'Sep 28, 2025', location: 'Home Address' },
-  ];
+  const [requests, setRequests] = useState<Request[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filteredRequests = requests.filter(req => {
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      setIsLoading(true);
+      setError(null);
+      const res = await api.listRequests();
+      if (!isMounted) return;
+      if (!res.success) {
+        setError(res.error);
+        setRequests([]);
+        setIsLoading(false);
+        return;
+      }
+      setRequests(res.data.requests);
+      setIsLoading(false);
+    })();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const viewModels = useMemo(() => {
+    const statusLabel = (s: Request['status']) => {
+      switch (s) {
+        case 'in_progress':
+          return 'In Progress';
+        case 'resolved':
+          return 'Completed';
+        case 'closed':
+          return 'Closed';
+        case 'cancelled':
+          return 'Cancelled';
+        case 'pending':
+        default:
+          return 'Scheduled';
+      }
+    };
+
+    const statusStyle = (label: string) => {
+      if (label === 'Completed') return 'bg-green-100 text-green-600';
+      if (label === 'In Progress') return 'bg-blue-100 text-blue-600';
+      if (label === 'Cancelled') return 'bg-red-100 text-red-600';
+      return 'bg-orange-100 text-orange-600';
+    };
+
+    return requests.map((r) => {
+      const label = statusLabel(r.status);
+      return {
+        id: r.id,
+        type: r.title || r.category,
+        statusLabel: label,
+        statusStyle: statusStyle(label),
+        date: new Date(r.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' }),
+        location: r.location || '',
+      };
+    });
+  }, [requests]);
+
+  const filteredRequests = viewModels.filter(req => {
     if (activeFilter === 'All') return true;
-    if (activeFilter === 'Active') return req.status === 'In Progress' || req.status === 'Scheduled';
-    if (activeFilter === 'Completed') return req.status === 'Completed';
+    if (activeFilter === 'Active') return req.statusLabel === 'In Progress' || req.statusLabel === 'Scheduled';
+    if (activeFilter === 'Completed') return req.statusLabel === 'Completed';
     return true;
   });
 
@@ -49,7 +106,21 @@ const RequestHistory: React.FC = () => {
       </div>
 
       <div className="p-6 space-y-4 min-h-[60vh]">
-        {filteredRequests.length > 0 ? (
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-12 text-slate-400">
+            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+              <Clock size={24} />
+            </div>
+            <p className="text-sm font-medium">Loading requests...</p>
+          </div>
+        ) : error ? (
+          <div className="flex flex-col items-center justify-center py-12 text-slate-400">
+            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+              <Filter size={24} />
+            </div>
+            <p className="text-sm font-medium">{error}</p>
+          </div>
+        ) : filteredRequests.length > 0 ? (
           filteredRequests.map((req) => (
             <button 
               key={req.id} 
@@ -57,11 +128,9 @@ const RequestHistory: React.FC = () => {
               className="w-full text-left bg-white p-5 rounded-2xl shadow-sm border border-slate-100 active:scale-[0.99] transition-transform group"
             >
               <div className="flex justify-between items-start mb-2">
-                <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wide
-                  ${req.status === 'Completed' ? 'bg-green-100 text-green-600' : 
-                    req.status === 'In Progress' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600'}`}>
-                  {req.status === 'Completed' ? <CheckCircle size={12} /> : <Clock size={12} />}
-                  {req.status}
+                <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wide ${req.statusStyle}`}>
+                  {req.statusLabel === 'Completed' ? <CheckCircle size={12} /> : <Clock size={12} />}
+                  {req.statusLabel}
                 </div>
                 <span className="text-[10px] text-slate-400 font-mono">{req.id}</span>
               </div>

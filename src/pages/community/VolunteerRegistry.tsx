@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Heart, Clock, Trophy, UserPlus, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '../../stores';
 
 const VolunteerRegistry: React.FC = () => {
   const navigate = useNavigate();
+  const user = useAppStore((s) => s.user);
   const [joining, setJoining] = useState<number | null>(null);
   const [joinedEvents, setJoinedEvents] = useState<number[]>([]);
 
@@ -37,7 +39,7 @@ const VolunteerRegistry: React.FC = () => {
             <Heart size={32} className="text-white" />
           </div>
           <div>
-            <h2 className="font-bold text-lg">Alexandros Pappas</h2>
+            <h2 className="font-bold text-lg">{user?.name || 'Guest'}</h2>
             <div className="flex items-center gap-2 text-rose-200 text-sm">
               <Trophy size={14} />
               <span>Level 3 Volunteer</span>

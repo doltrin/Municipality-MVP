@@ -2,9 +2,11 @@ import React from 'react';
 import { ArrowLeft, User, Mail, Phone, MapPin, Lock, Bell, Globe, ChevronRight, ShieldCheck, LogOut, HelpCircle, Eye, Palette } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ThemeToggle from '../components/ThemeToggle';
+import { useAppStore } from '../stores';
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();
+  const user = useAppStore((s) => s.user);
 
   return (
     <div className="flex flex-col min-h-full bg-zinc-100 dark:bg-background-dark pb-20">
@@ -43,12 +45,12 @@ const Settings: React.FC = () => {
             <SettingsItem 
               icon={User} 
               label="Personal Information" 
-              value="Alexandros Pappas" 
+              value={user?.name || '—'} 
               onClick={() => navigate('/profile/personal')} 
             />
-            <SettingsItem icon={Mail} label="Email Address" value="alex.pappas@email.com" />
-            <SettingsItem icon={Phone} label="Phone Number" value="+30 694 123 4567" />
-            <SettingsItem icon={MapPin} label="Address" value="Ag. Meletiou 132, Athens" />
+            <SettingsItem icon={Mail} label="Email Address" value={user?.email || '—'} />
+            <SettingsItem icon={Phone} label="Phone Number" value={user?.phone || '—'} />
+            <SettingsItem icon={MapPin} label="Address" value="—" />
           </div>
         </section>
 

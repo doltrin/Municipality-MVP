@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { QrCode, Award, History, ArrowLeft, Share2, Building2, Car, Recycle, Bus, Ticket, X, ChevronRight, Coffee, ShoppingBag, Dumbbell, Film, Check, Gift, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { api } from '../api';
+import { useAppStore } from '../stores';
 
 interface Reward {
   id: string;
@@ -28,12 +30,16 @@ type RedeemStep = 'list' | 'confirm' | 'success';
 
 const DigitalWallet: React.FC = () => {
   const navigate = useNavigate();
+  const user = useAppStore((s) => s.user);
+  const updateUserPoints = useAppStore((s) => s.updateUserPoints);
   const [activeCard, setActiveCard] = useState<'citizen' | 'youth'>('citizen');
   const [showPoints, setShowPoints] = useState(false);
-  const [userPoints, setUserPoints] = useState(450);
   const [redeemStep, setRedeemStep] = useState<RedeemStep>('list');
   const [selectedReward, setSelectedReward] = useState<Reward | null>(null);
   const [isRedeeming, setIsRedeeming] = useState(false);
+  const [voucherCode, setVoucherCode] = useState<string | null>(null);
+
+  const userPoints = user?.points ?? 0;
 
   const handleSelectReward = (reward: Reward) => {
     if (userPoints >= reward.points) {
@@ -42,27 +48,33 @@ const DigitalWallet: React.FC = () => {
     }
   };
 
-  const handleConfirmRedeem = () => {
+  const handleConfirmRedeem = async () => {
     if (!selectedReward) return;
     setIsRedeeming(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setUserPoints(prev => prev - selectedReward.points);
-      setIsRedeeming(false);
-      setRedeemStep('success');
-    }, 1500);
+
+    const res = await api.redeemReward({ rewardId: selectedReward.id }, user);
+    setIsRedeeming(false);
+
+    if (!res.success) {
+      return;
+    }
+
+    updateUserPoints(-selectedReward.points);
+    setVoucherCode(res.data.voucherCode);
+    setRedeemStep('success');
   };
 
   const handleCloseModal = () => {
     setShowPoints(false);
     setRedeemStep('list');
     setSelectedReward(null);
+    setVoucherCode(null);
   };
 
   const handleBackToList = () => {
     setRedeemStep('list');
     setSelectedReward(null);
+    setVoucherCode(null);
   };
 
   return (
@@ -119,7 +131,7 @@ const DigitalWallet: React.FC = () => {
               <div className="flex items-end justify-between">
                 <div>
                   <p className="text-xs opacity-70 mb-1">CARD HOLDER</p>
-                  <p className="font-mono font-bold text-lg tracking-wider">ALEXANDROS PAPPAS</p>
+                  <p className="font-mono font-bold text-lg tracking-wider">{(user?.name || 'GUEST').toUpperCase()}</p>
                   <p className="font-mono text-sm opacity-70">ID: 8492-1039-4820</p>
                 </div>
                 <div className="bg-white p-2 rounded-lg">
@@ -371,7 +383,7 @@ const DigitalWallet: React.FC = () => {
                         {/* Voucher Code */}
                         <div className="bg-gradient-to-br from-accent/10 to-blue-500/10 border-2 border-dashed border-accent/30 rounded-2xl p-6 mb-6">
                           <p className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Your Voucher Code</p>
-                          <p className="text-3xl font-mono font-bold text-accent tracking-widest">ATH-{Math.random().toString(36).substring(2, 8).toUpperCase()}</p>
+                          <p className="text-3xl font-mono font-bold text-accent tracking-widest">{voucherCode || '—'}</p>
                           <p className="text-xs text-zinc-400 mt-2">Valid for 30 days</p>
                         </div>
 

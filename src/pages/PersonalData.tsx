@@ -1,17 +1,23 @@
 import React, { useState, useCallback } from 'react';
 import { ArrowLeft, Save, Camera, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '../stores';
 
 const PersonalData: React.FC = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    firstName: 'Alexandros',
-    lastName: 'Pappas',
-    email: 'alex.pappas@email.com',
-    phone: '+30 694 123 4567',
-    address: 'Ag. Meletiou 132',
-    city: 'Athens',
-    postalCode: '10446'
+  const user = useAppStore((s) => s.user);
+  const [formData, setFormData] = useState(() => {
+    const fullName = user?.name || '';
+    const parts = fullName.split(' ').filter(Boolean);
+    return {
+      firstName: parts[0] || '',
+      lastName: parts.slice(1).join(' ') || '',
+      email: user?.email || '',
+      phone: user?.phone || '',
+      address: '',
+      city: '',
+      postalCode: '',
+    };
   });
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);

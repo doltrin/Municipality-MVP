@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Camera, MapPin, ChevronRight, History, Check, ArrowLeft, AlertCircle } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { api } from '../api';
 
 const Requests: React.FC = () => {
   const navigate = useNavigate();
@@ -8,30 +9,36 @@ const Requests: React.FC = () => {
 
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Check if returning from LocationPicker with a location
-    if (locationState.state && locationState.state.location) {
-      setLocation(locationState.state.location);
-    }
-  }, [locationState]);
+  const selectedLocation = (locationState.state as { location?: string } | null)?.location || '';
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!category || !location) return;
+    if (!category || !selectedLocation) return;
 
+    setSubmitError(null);
     setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      navigate('/requests/history');
-    }, 1500);
+
+    const res = await api.createRequest({
+      category,
+      description,
+      location: selectedLocation,
+      images: [],
+    });
+
+    setIsSubmitting(false);
+
+    if (!res.success) {
+      setSubmitError(res.error);
+      return;
+    }
+
+    navigate('/requests/history');
   };
 
-  const isFormValid = category && location;
+  const isFormValid = category && selectedLocation;
 
   return (
     <div className="flex flex-col min-h-full bg-zinc-100 dark:bg-background-dark pb-20">
@@ -112,25 +119,25 @@ const Requests: React.FC = () => {
                 type="button"
                 onClick={() => navigate('/requests/location', { state: { from: 'requests' } })}
                 className={`w-full border rounded-xl px-4 py-3.5 text-sm flex items-center gap-3 transition-all active:scale-[0.99] ${
-                  location 
+                  selectedLocation 
                     ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800' 
                     : 'bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700'
                 }`}
                 aria-label="Set location on map"
               >
                 <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                  location 
+                  selectedLocation 
                     ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400' 
                     : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-400 dark:text-zinc-500'
                 }`}>
                   <MapPin size={18} />
                 </div>
                 <span className={`flex-1 text-left font-medium truncate ${
-                  location ? 'text-slate-900 dark:text-white' : 'text-zinc-500 dark:text-zinc-400'
+                  selectedLocation ? 'text-slate-900 dark:text-white' : 'text-zinc-500 dark:text-zinc-400'
                 }`}>
-                  {location || 'Tap to set location on map'}
+                  {selectedLocation || 'Tap to set location on map'}
                 </span>
-                {location && <Check size={18} className="text-emerald-600 dark:text-emerald-400" />}
+                {selectedLocation && <Check size={18} className="text-emerald-600 dark:text-emerald-400" />}
               </button>
             </div>
 
@@ -151,6 +158,13 @@ const Requests: React.FC = () => {
               <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 text-xs font-medium bg-amber-50 dark:bg-amber-900/20 px-3 py-2 rounded-lg">
                 <AlertCircle size={14} />
                 Please fill in all required fields
+              </div>
+            )}
+
+            {submitError && (
+              <div className="flex items-center gap-2 text-red-600 dark:text-red-400 text-xs font-medium bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-lg">
+                <AlertCircle size={14} />
+                {submitError}
               </div>
             )}
 

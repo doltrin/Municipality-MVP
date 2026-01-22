@@ -6,6 +6,7 @@ import {
   CloudSun, Wind, Droplets, ThermometerSun
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '../stores';
 
 // Material 3 Color Tokens
 const M3 = {
@@ -43,6 +44,7 @@ const M3 = {
 
 const HomeMaterial3: React.FC = () => {
   const navigate = useNavigate();
+  const user = useAppStore((s) => s.user);
 
   // Quick access services
   const quickServices = [
@@ -124,7 +126,7 @@ const HomeMaterial3: React.FC = () => {
                   {formattedDate}
                 </span>
                 <h1 className="text-2xl font-normal leading-tight" style={{ color: M3.onPrimaryContainer }}>
-                  {getGreeting()},<br/><span className="font-semibold">Alexandros</span>
+                  {getGreeting()},<br/><span className="font-semibold">{user?.name || 'Guest'}</span>
                 </h1>
               </div>
               <div className="text-right">

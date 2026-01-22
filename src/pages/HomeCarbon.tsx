@@ -5,6 +5,7 @@ import {
   CloudSun, Wind, Droplets, ThermometerSun
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '../stores';
 
 // IBM Carbon Design Tokens
 const Carbon = {
@@ -25,6 +26,7 @@ const Carbon = {
 
 const HomeCarbon: React.FC = () => {
   const navigate = useNavigate();
+  const user = useAppStore((s) => s.user);
 
   const quickServices = [
     { label: 'Certificates', icon: FileText, path: '/services/civil/birth-certificate' },
@@ -81,7 +83,7 @@ const HomeCarbon: React.FC = () => {
           <div className="flex justify-between items-start">
             <div>
               <span className="text-xs font-medium uppercase tracking-wide opacity-80">{formattedDate}</span>
-              <h1 className="text-2xl font-light mt-1">{getGreeting()},<br/><span className="font-semibold">Alexandros</span></h1>
+              <h1 className="text-2xl font-light mt-1">{getGreeting()},<br/><span className="font-semibold">{user?.name || 'Guest'}</span></h1>
             </div>
             <div className="text-right">
               <div className="flex items-center gap-2">
