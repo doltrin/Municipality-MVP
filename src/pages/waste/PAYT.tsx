@@ -11,7 +11,7 @@ const PAYT: React.FC = () => {
     <div className="flex flex-col min-h-full bg-slate-50">
       <div className="bg-green-600 px-6 pt-12 pb-8 rounded-b-[2rem] shadow-lg">
         <div className="flex items-center gap-3 mb-6">
-          <button onClick={() => navig/ate(-1)} className="text-white/80 hover:text-white">
+          <button onClick={() => navigate(-1)} className="text-white/80 hover:text-white">
             <ArrowLeft size={24} />
           </button>
           <h1 className="text-2xl font-bold text-white">Pay-As-You-Throw</h1>
